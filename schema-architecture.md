@@ -13,4 +13,3 @@ The Smart Clinic Management System is built on a **three-tier architecture** tha
 5. **Database Access** – Each repository talks to its underlying engine. MySQL stores normalized relational entities with constraints; MongoDB stores flexible, nested documents that can evolve without migrations.
 6. **Model Binding** – Retrieved data is mapped back to Java objects: JPA entities (`@Entity`) for MySQL rows, and document objects (`@Document`) for MongoDB collections.
 7. **Response Layer** – In MVC flows, models are passed from the controller to Thymeleaf templates and rendered as dynamic HTML. In REST flows, the same models (or transformed DTOs) are serialized into JSON and returned as an HTTP response. This completes the request-response cycle, delivering either a full web page or structured API data depending on the consumer.
-8. 
