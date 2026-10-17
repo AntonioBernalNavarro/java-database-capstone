@@ -63,3 +63,222 @@
 
 Let me know if you'd like a consolidated style guide for the entire HospitalCRM frontend.
  */
+
+/* ----------------------------------------------------
+   RESET & BASE STYLES
+   ---------------------------------------------------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+/* ----------------------------------------------------
+   LAYOUT
+   ---------------------------------------------------- */
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ----------------------------------------------------
+   TABLE HEADER
+   ---------------------------------------------------- */
+
+.table-header {
+    font-size: 24px;
+    color: #015c5d;
+    margin-bottom: 30px;
+    margin-right: 0;
+}
+
+/* ----------------------------------------------------
+   TABLE STYLING
+   ---------------------------------------------------- */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: sans-serif;
+    margin-top: 20px;
+}
+
+thead {
+    background-color: #33333310;
+    color: #fff;
+}
+
+td, th {
+    padding: 12px 16px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f959;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #ffffffc0;
+}
+
+tbody tr:hover {
+    background-color: #015c5d39;
+}
+
+/* ----------------------------------------------------
+   PRESCRIPTION BUTTON
+   ---------------------------------------------------- */
+
+.prescription-btn {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.prescription-btn:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+.prescription-btn:active {
+    transform: scale(0.95);
+}
+
+/* ----------------------------------------------------
+   NO RECORD MESSAGE
+   ---------------------------------------------------- */
+
+.noPatientRecord {
+    font-size: 16px;
+    font-style: italic;
+    color: gray;
+}
+
+/* ----------------------------------------------------
+   TODAY BUTTON
+   ---------------------------------------------------- */
+
+.today-btn,
+#todayButton {
+    margin-right: 10px;
+    padding: 10px;
+    background-color: #015c5d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.today-btn:hover,
+#todayButton:hover {
+    background-color: #017d7e;
+}
+
+/* ----------------------------------------------------
+   DATE PICKER
+   ---------------------------------------------------- */
+
+.date-picker,
+#datePicker {
+    margin-left: 10px;
+    margin-top: 13px;
+    border-radius: 8px;
+    padding: 10px;
+    height: 30px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+/* ----------------------------------------------------
+   SEARCH BAR (required by CSS Code task)
+   ---------------------------------------------------- */
+
+#searchBar,
+.searchBar {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 20px auto;
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+}
+
+#searchBar:focus,
+.searchBar:focus {
+    border-color: #015c5d;
+    box-shadow: 0 0 4px rgba(1, 92, 93, 0.4);
+}
+
+/* ----------------------------------------------------
+   FILTERS SECTION
+   ---------------------------------------------------- */
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+/* ----------------------------------------------------
+   RESPONSIVE DESIGN
+   ---------------------------------------------------- */
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 20px;
+    }
+
+    #searchBar,
+    .searchBar {
+        max-width: 100%;
+    }
+
+    .filters {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    td, th {
+        padding: 8px 10px;
+    }
+
+    .table-header {
+        font-size: 20px;
+    }
+}
