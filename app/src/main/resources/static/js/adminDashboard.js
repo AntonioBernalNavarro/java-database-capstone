@@ -70,3 +70,161 @@
 
     If saving fails, show an error message
 */
+
+/* Import required modules */
+import { openModal } from "./components/modals.js";
+import { getDoctors, filterDoctors, saveDoctor } from "./services/doctorServices.js";
+import { createDoctorCard } from "./components/doctorCard.js";
+
+
+/* Attach a click listener to the "Add Doctor" button */
+document.addEventListener("DOMContentLoaded", () => {
+    const addDocBtn = document.getElementById("addDocBtn");
+    if (addDocBtn) {
+        addDocBtn.addEventListener("click", () => {
+            openModal("addDoctor");
+        });
+    }
+});
+
+
+/* When the DOM is fully loaded: call loadDoctorCards() to fetch and display all doctors */
+window.addEventListener("DOMContentLoaded", () => {
+    loadDoctorCards();
+});
+
+
+/* Function: loadDoctorCards — Fetch all doctors and display them as cards */
+async function loadDoctorCards() {
+    try {
+        /* Call getDoctors() from the service layer */
+        const doctors = await getDoctors();
+
+        /* Clear the current content area */
+        const contentDiv = document.getElementById("content");
+        if (!contentDiv) return;
+        contentDiv.innerHTML = "";
+
+        /* For each doctor returned: create a card and append it */
+        doctors.forEach((doctor) => {
+            const card = createDoctorCard(doctor);
+            contentDiv.appendChild(card);
+        });
+    } catch (error) {
+        /* Handle any fetch errors by logging them */
+        console.error("Error loading doctor cards:", error);
+    }
+}
+
+
+/* Attach 'input' and 'change' event listeners to the search bar and filter dropdowns */
+const searchBar = document.getElementById("searchBar");
+const filterTime = document.getElementById("filterTime");
+const filterSpecialty = document.getElementById("filterSpecialty");
+
+if (searchBar)        searchBar.addEventListener("input", filterDoctorsOnChange);
+if (filterTime)       filterTime.addEventListener("change", filterDoctorsOnChange);
+if (filterSpecialty)  filterSpecialty.addEventListener("change", filterDoctorsOnChange);
+
+
+/* Function: filterDoctorsOnChange — Filter doctors based on name, time, specialty */
+async function filterDoctorsOnChange() {
+    try {
+        /* Read values from the search bar and filters */
+        const name = document.getElementById("searchBar").value.trim();
+        const time = document.getElementById("filterTime").value;
+        const specialty = document.getElementById("filterSpecialty").value;
+
+        /* Normalize empty values to null */
+        const nameParam      = name      || null;
+        const timeParam      = time      || null;
+        const specialtyParam = specialty || null;
+
+        /* Call filterDoctors(name, time, specialty) from the service */
+        const doctors = await filterDoctors(nameParam, timeParam, specialtyParam);
+
+        /* If doctors are found: render them using createDoctorCard() */
+        if (doctors && doctors.length > 0) {
+            renderDoctorCards(doctors);
+        } else {
+            /* If no doctors match the filter: show a message */
+            const contentDiv = document.getElementById("content");
+            contentDiv.innerHTML = `<p class="noPatientRecord">No doctors found with the given filters.</p>`;
+        }
+    } catch (error) {
+        /* Catch and display any errors with an alert */
+        console.error("Error filtering doctors:", error);
+        alert("An error occurred while filtering doctors. Please try again.");
+    }
+}
+
+
+/* Function: renderDoctorCards — A helper function to render a list of doctors */
+function renderDoctorCards(doctors) {
+    /* Clear the content area */
+    const contentDiv = document.getElementById("content");
+    contentDiv.innerHTML = "";
+
+    /* Loop through the doctors and append each card to the content area */
+    doctors.forEach((doctor) => {
+        const card = createDoctorCard(doctor);
+        contentDiv.appendChild(card);
+    });
+}
+
+
+/* Function: adminAddDoctor — Collect form data and add a new doctor */
+async function adminAddDoctor() {
+    /* Collect input values from the modal form */
+    const name          = document.getElementById("doctorName").value.trim();
+    const email         = document.getElementById("doctorEmail").value.trim();
+    const phone         = document.getElementById("doctorPhone").value.trim();
+    const password      = document.getElementById("doctorPassword").value.trim();
+    const specialty     = document.getElementById("doctorSpecialty").value.trim();
+
+    /* Collect any checkbox values for doctor availability */
+    const availableTimes = Array.from(
+        document.querySelectorAll('input[name="availableTimes"]:checked')
+    ).map((checkbox) => checkbox.value);
+
+    /* Retrieve the authentication token from localStorage */
+    const token = localStorage.getItem("token");
+
+    /* If no token is found, show an alert and stop execution */
+    if (!token) {
+        alert("Session expired. Please log in again.");
+        return;
+    }
+
+    /* Build a doctor object with the form values */
+    const doctor = {
+        name,
+        email,
+        phone,
+        password,
+        specialty,
+        availableTimes
+    };
+
+    try {
+        /* Call saveDoctor(doctor, token) from the service */
+        const result = await saveDoctor(doctor, token);
+
+        /* If save is successful: show message, close modal, reload */
+        if (result.success) {
+            alert(result.message || "Doctor added successfully!");
+            const modal = document.getElementById("modal");
+            if (modal) modal.classList.remove("show");
+            window.location.reload();
+        } else {
+            /* If saving fails, show an error message */
+            alert(`Failed to add doctor: ${result.message}`);
+        }
+    } catch (error) {
+        console.error("Error adding doctor:", error);
+        alert("An error occurred while adding the doctor. Please try again.");
+    }
+}
+
+/* Expose adminAddDoctor globally so the modal form's onsubmit can call it */
+window.adminAddDoctor = adminAddDoctor;
