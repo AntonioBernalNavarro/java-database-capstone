@@ -146,7 +146,7 @@ Output: JSON with 25 doctors including availableTimes. Full output in deliverabl
 
 Login: curl -X POST https://antonionbern-8080.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/patient/login -H "Content-Type: application/json" -d '{"email":"jane.doe@example.com","password":"passJane1"}'
 
-Appointments: curl -i -X GET https://antonionbern-8080.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/patient/1/patient/<JWT-TOKEN> -H "Accept: application/json"
+Appointments: curl -i -X GET https://antonionbern-8080.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/patient/1/<JWT-TOKEN>/patient/appointments -H "Accept: application/json"
 
 Full output in deliverables/curl-outputs/25-patient-appointments.txt
 
