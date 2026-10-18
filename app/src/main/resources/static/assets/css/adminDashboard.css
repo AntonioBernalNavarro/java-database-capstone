@@ -168,12 +168,7 @@ button:hover {
     background-color: #f4f4f4;
 }
 
-/* ----------------------------------------------------
-   EXTRA STYLES REQUIRED BY THE LAB TASKS
-   (Search Bar, Filters, Modal, Doctor Cards)
-   ---------------------------------------------------- */
-
-/* Container (needed by adminDashboard.html) */
+/* Container */
 .container {
     display: flex;
     flex-direction: column;
@@ -257,7 +252,10 @@ button:hover {
     color: #333;
 }
 
-/* Modal Styling */
+/* ----------------------------------------------------
+   MODAL STYLES
+   ---------------------------------------------------- */
+
 .modal {
     display: none;
     position: fixed;
@@ -265,11 +263,12 @@ button:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    transition: opacity 0.3s ease;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .modal.show {
@@ -277,13 +276,30 @@ button:hover {
 }
 
 .modal-content {
-    background-color: white;
-    padding: 30px;
+    background-color: #fff;
     border-radius: 12px;
+    padding: 30px;
     max-width: 500px;
-    width: 90%;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
     position: relative;
-    text-align: left;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content .close {
+    position: absolute;
+    top: 10px;
+    right: 18px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    z-index: 1010;
+}
+
+.modal-content .close:hover {
+    color: #A62B1F;
 }
 
 #modal-body {
@@ -293,70 +309,70 @@ button:hover {
 }
 
 #modal-body h2 {
-    font-size: 24px;
+    margin-top: 0;
     margin-bottom: 20px;
     color: #003e3e;
+    text-align: center;
+    font-size: 24px;
 }
 
-#modal-body input,
-#modal-body select,
-#modal-body textarea {
+#modal-body .input-field,
+#modal-body input[type="text"],
+#modal-body input[type="email"],
+#modal-body input[type="password"],
+#modal-body select {
     width: 100%;
     padding: 10px 14px;
+    margin-bottom: 12px;
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 15px;
-    outline: none;
     box-sizing: border-box;
+    outline: none;
 }
 
 #modal-body input:focus,
-#modal-body select:focus,
-#modal-body textarea:focus {
-    border-color: #003e3e;
-    box-shadow: 0 0 4px rgba(0, 62, 62, 0.4);
+#modal-body select:focus {
+    border-color: #015c5d;
+    box-shadow: 0 0 4px rgba(1, 92, 93, 0.4);
 }
 
-/* Close Button in Modal */
-.close {
-    position: absolute;
-    top: 10px;
-    right: 18px;
-    font-size: 28px;
+#modal-body .availability-container {
+    margin: 10px 0;
+}
+
+#modal-body .availabilityLabel {
+    display: block;
+    margin-bottom: 8px;
     font-weight: bold;
     color: #333;
+}
+
+#modal-body .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+#modal-body .checkbox-group label {
+    font-size: 14px;
+    color: #333;
     cursor: pointer;
-    transition: color 0.2s ease;
 }
 
-.close:hover {
-    color: #A62B1F;
+#modal-body .dashboard-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background-color: #015c5d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
 }
 
-/* Responsive Behavior */
-@media (max-width: 768px) {
-    h2 {
-        font-size: 24px;
-    }
-
-    .main-content {
-        padding: 20px;
-    }
-
-    #searchBar {
-        max-width: 100%;
-    }
-
-    .filters {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .filters select {
-        width: 80%;
-    }
-
-    .doctor-card {
-        width: 90%;
-    }
+#modal-body .dashboard-btn:hover {
+    background-color: #A62B1F;
 }

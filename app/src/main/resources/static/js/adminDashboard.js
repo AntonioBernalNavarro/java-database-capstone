@@ -180,11 +180,11 @@ async function adminAddDoctor() {
     const email         = document.getElementById("doctorEmail").value.trim();
     const phone         = document.getElementById("doctorPhone").value.trim();
     const password      = document.getElementById("doctorPassword").value.trim();
-    const specialty     = document.getElementById("doctorSpecialty").value.trim();
+    const specialty     = document.getElementById("specialization").value.trim();
 
     /* Collect any checkbox values for doctor availability */
     const availableTimes = Array.from(
-        document.querySelectorAll('input[name="availableTimes"]:checked')
+        document.querySelectorAll('input[name="availability"]:checked')
     ).map((checkbox) => checkbox.value);
 
     /* Retrieve the authentication token from localStorage */

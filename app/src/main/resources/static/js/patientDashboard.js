@@ -56,20 +56,17 @@ function filterDoctorsOnChange() {
   const specialty = filterSpecialty.length > 0 ? filterSpecialty : null;
 
   filterDoctors(name, time, specialty)
-    .then(response => {
-      const doctors = response.doctors;
+    .then(doctors => {
       const contentDiv = document.getElementById("content");
       contentDiv.innerHTML = "";
 
-      if (doctors.length > 0) {
-        console.log(doctors);
+      if (doctors && doctors.length > 0) {
         doctors.forEach(doctor => {
           const card = createDoctorCard(doctor);
           contentDiv.appendChild(card);
         });
       } else {
         contentDiv.innerHTML = "<p>No doctors found with the given filters.</p>";
-        console.log("Nothing");
       }
     })
     .catch(error => {
@@ -91,7 +88,8 @@ window.signupPatient = async function () {
 
     if (success) {
       alert(message);
-      document.getElementById("modal").style.display = "none";
+      const modal = document.getElementById("modal");
+      if (modal) modal.classList.remove("show");
       window.location.reload();
     } else {
       alert(message);
@@ -108,15 +106,11 @@ window.loginPatient = async function () {
     const password = document.getElementById("password").value;
 
     const data = { email, password };
-    console.log("loginPatient :: ", data);
 
     const response = await patientLogin(data);
-    console.log("Status Code:", response.status);
-    console.log("Response OK:", response.ok);
 
     if (response.ok) {
       const result = await response.json();
-      console.log(result);
       selectRole('loggedPatient');
       localStorage.setItem('token', result.token);
       window.location.href = '/pages/loggedPatientDashboard.html';
@@ -124,7 +118,7 @@ window.loginPatient = async function () {
       alert('❌ Invalid credentials!');
     }
   } catch (error) {
-    alert("❌ Failed to Login : ", error);
-    console.log("Error :: loginPatient :: ", error);
+    console.error("Error :: loginPatient :: ", error);
+    alert("❌ Failed to Login: " + (error.message || error));
   }
 };

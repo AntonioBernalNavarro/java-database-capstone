@@ -15,7 +15,8 @@ export async function getDoctors() {
             console.error("Failed to fetch doctors:", response.status);
             return [];
         }
-        return await response.json();
+        const data = await response.json();
+        return data.doctors || [];
     } catch (error) {
         console.error("Error fetching doctors:", error);
         return [];
@@ -62,15 +63,11 @@ export async function saveDoctor(doctor, token) {
 /* Filter doctors */
 export async function filterDoctors(name, time, specialty) {
     try {
-        const params = new URLSearchParams();
-        if (name)      params.append("name", name);
-        if (time)      params.append("time", time);
-        if (specialty) params.append("specialty", specialty);
+        const n = name || "null";
+        const t = time || "null";
+        const s = specialty || "null";
 
-        const queryString = params.toString();
-        const url = queryString
-            ? `${DOCTOR_API}/filter?${queryString}`
-            : `${DOCTOR_API}/filter`;
+        const url = `${DOCTOR_API}/filter/${encodeURIComponent(n)}/${encodeURIComponent(t)}/${encodeURIComponent(s)}`;
 
         const response = await fetch(url, {
             method: 'GET',
@@ -80,7 +77,8 @@ export async function filterDoctors(name, time, specialty) {
             console.error("Failed to filter doctors:", response.status);
             return [];
         }
-        return await response.json();
+        const data = await response.json();
+        return data.doctors || [];
     } catch (error) {
         console.error("Error filtering doctors:", error);
         return [];

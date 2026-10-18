@@ -37,9 +37,6 @@ Function to create and return a DOM element for a single doctor card
   Return the complete doctor card element
 */
 
-/* Import the overlay function for booking appointments from loggedPatient.js */
-import { showBookingOverlay } from "../loggedPatient.js";
-
 /* Import the deleteDoctor API function to remove doctors (admin role) from doctorServices.js */
 import { deleteDoctor } from "../services/doctorServices.js";
 
@@ -157,7 +154,8 @@ export function createDoctorCard(doctor) {
                 const patientData = await getPatientData(token);
 
                 /* Show booking overlay UI with doctor and patient info */
-                showBookingOverlay(e, doctor, patientData);
+                console.log("Booking data ready:", { doctor, patientData });
+                alert(`Booking for ${doctor.name} — booking flow will be implemented in the next lab.`);
             } catch (error) {
                 alert("Failed to load patient data: " + error.message);
             }

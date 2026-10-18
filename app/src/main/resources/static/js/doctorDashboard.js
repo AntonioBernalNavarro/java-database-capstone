@@ -141,7 +141,7 @@ async function loadAppointments() {
             };
 
             /* Call createPatientRow to generate a table row */
-            const row = createPatientRow(patient, appointment);
+            const row = createPatientRow(patient, appointment.id, appointment.doctorId);
 
             /* Append each row to the table body */
             patientTableBody.appendChild(row);
